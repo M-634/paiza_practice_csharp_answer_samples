@@ -7,16 +7,31 @@ class Program
 {
     static void Main()
     {
-        
+
     }
 
-    static int ConsoleReadLineToInt()
+    static void Output(object value)
     {
-        return int.Parse(ConsoleReadLine());
+        Console.WriteLine(value);
     }
 
-    static int[] ConsoleReadLineToIntArray()
+    static void Output<T>(IEnumerable<T> list)
     {
-        return ConsoleReadLine().Sprit(' ').Select(int.Parse).ToArray();
+        Console.WriteLine(string.Join(' ', list));
+    }
+
+    static void SkipLine()
+    {
+        Console.ReadLine();
+    }
+
+    static int ReadLineToInt()
+    {
+        return int.Parse(Console.ReadLine());
+    }
+
+    static IEnumerable<int> ReadIntsFromConsole()
+    {
+        return Console.ReadLine().Split(' ').Select(int.Parse);
     }
 }
