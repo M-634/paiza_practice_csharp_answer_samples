@@ -13,7 +13,7 @@ class Program
         s = input[1];
         k = input[2];
 
-        // vertix number, adjacencyList
+        // vertex number, adjacencyList
         var graph = new Dictionary<int, List<int>>();
 
         for (int i = 1; i <= n; i++)

@@ -14,7 +14,7 @@ class Program
         s = input[1];
         t = input[2];
 
-        // vertix number, adjacencyList
+        // vertex number, adjacencyList
         var graph = new Dictionary<int, List<int>>();
 
         for (int i = 1; i <= n; i++)
@@ -31,12 +31,12 @@ class Program
         cameFrom[s] = -1;//親いないので「-1」
         queue.Enqueue(s);
 
-        while(queue.Count > 0)
-        { 
+        while (queue.Count > 0)
+        {
             int current = queue.Dequeue();
 
             //頂点tに到達したのでパス（実際に通った道）を出力
-            if(current == t)
+            if (current == t)
             {
                 var path = new Stack<int>();
                 int next = t;
@@ -49,9 +49,9 @@ class Program
                 return;
             }
 
-            foreach(var neighbor in graph[current])
+            foreach (var neighbor in graph[current])
             {
-                if(cameFrom.ContainsKey(neighbor)) continue;
+                if (cameFrom.ContainsKey(neighbor)) continue;
                 cameFrom[neighbor] = current;//BFSはここで予約しておく。
                 queue.Enqueue(neighbor);
             }
