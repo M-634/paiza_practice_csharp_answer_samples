@@ -32,23 +32,23 @@ class Program
         }
 
         // DFS開始
-        var walk = new List<int>();
+        var trail = new List<int>();
         var useEdges = new HashSet<(int, int)>();
-        DfsRecursive(s, walk, useEdges, k);
+        DfsRecursive(s, trail, useEdges, k);
         Output(outPutPath);
     }
 
 
-   static void DfsRecursive(int current, List<int> walk, HashSet<(int, int)> useEdges, int k)
+   static void DfsRecursive(int current, List<int> trail, HashSet<(int, int)> useEdges, int k)
    { 
         //既にパスがあるなら早期リターン
         if (outPutPath.Any()) return;
  
-        walk.Add(current);
+        trail.Add(current);
             
         if (k == 0)
         {
-            outPutPath = new List<int>(walk);
+            outPutPath = new List<int>(trail);
             return;
         }
 
@@ -58,12 +58,12 @@ class Program
             var edge = (Math.Min(current, neighbor), Math.Max(current, neighbor));
             if (useEdges.Add(edge))
             {
-                DfsRecursive(neighbor, walk, useEdges, k - 1);
+                DfsRecursive(neighbor, trail, useEdges, k - 1);
                 useEdges.Remove(edge);
             }
         }
 
-        walk.RemoveAt(walk.Count - 1);
+        trail.RemoveAt(trail.Count - 1);
     }
 
     static void Output<T>(IEnumerable<T> list)
