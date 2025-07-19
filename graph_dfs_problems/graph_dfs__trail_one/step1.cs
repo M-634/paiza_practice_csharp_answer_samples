@@ -5,6 +5,12 @@ using System.Linq;
 
 class Program
 {
+    // vertex number, adjacencyList
+    static Dictionary<int, List<int>> graph = new Dictionary<int, List<int>>();
+
+    // 出力パス
+    static List<int> outPutPath = new List<int>();
+
     static void Main()
     {
         int n, s, k;
@@ -14,7 +20,6 @@ class Program
         k = input[2];
 
         // 完全グラフ作成
-        var graph = new Dictionary<int, List<int>>();
         for (int i = 1; i <= n; i++)
         {
             var adjacencyList = new List<int>();
@@ -26,28 +31,44 @@ class Program
             graph.Add(i, adjacencyList);
         }
 
-
-
+        // DFS開始
+        var walk = new List<int>();
+        var useEdges = new HashSet<(int, int)>();
+        DfsRecursive(s, walk, useEdges, k);
+        Output(outPutPath);
     }
 
-    static void Output(object value)
-    {
-        Console.WriteLine(value);
+
+   static void DfsRecursive(int current, List<int> walk, HashSet<(int, int)> useEdges, int k)
+   { 
+        //既にパスがあるなら早期リターン
+        if (outPutPath.Any()) return;
+ 
+        walk.Add(current);
+            
+        if (k == 0)
+        {
+            outPutPath = new List<int>(walk);
+            return;
+        }
+
+        foreach (var neighbor in graph[current])
+        {
+            //経路チェック:完全無向グラフなので例えば（１，２）（２，１）経路を同じ扱いにする
+            var edge = (Math.Min(current, neighbor), Math.Max(current, neighbor));
+            if (useEdges.Add(edge))
+            {
+                DfsRecursive(neighbor, walk, useEdges, k - 1);
+                useEdges.Remove(edge);
+            }
+        }
+
+        walk.RemoveAt(walk.Count - 1);
     }
 
     static void Output<T>(IEnumerable<T> list)
     {
         Console.WriteLine(string.Join(' ', list));
-    }
-
-    static void SkipLine()
-    {
-        Console.ReadLine();
-    }
-
-    static int ReadLineToInt()
-    {
-        return int.Parse(Console.ReadLine());
     }
 
     static IEnumerable<int> ReadIntsFromConsole()
